@@ -2,8 +2,8 @@ import express from 'express'
 import cors from 'cors'
 import morgan from 'morgan'
 
-import { globalErrorHandler } from './utils/errorHandler.js'
-import { router } from './routers'
+import { globalErrorHandler } from './middleware/errorHandler.js'
+import { router } from './routers/index.js'
 
 const createApp = () => {
   const app = express()
