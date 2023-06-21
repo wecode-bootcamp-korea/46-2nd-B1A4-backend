@@ -8,6 +8,10 @@ const getStudioById = async (studioId) => {
   return await studioDao.queryStudioById(studioId)
 }
 
+const getStudiosByCategory = async (studioCategoryId, offset, limit) => {
+  return await studioDao.queryStudioByCategory(studioCategoryId, offset, limit)
+}
+
 const postStudio = async (
   studioName,
   hostId,
@@ -36,4 +40,14 @@ const postStudio = async (
   )
 }
 
-export { getAllStudios, getStudioById, postStudio }
+const getReviewByStudioId = async (studioId) => {
+  return await studioDao.queryStudioReview(studioId)
+}
+
+export {
+  getAllStudios,
+  getStudioById,
+  postStudio,
+  getStudiosByCategory,
+  getReviewByStudioId,
+}
