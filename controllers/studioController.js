@@ -16,6 +16,19 @@ const getStudioById = catchAsync(async (req, res) => {
   })
 })
 
+const getStudiosByCategory = catchAsync(async (req, res) => {
+  const { studioCategoryId, offset, limit } = req.query
+
+  const studios = await studioService.getStudiosByCategory(
+    studioCategoryId,
+    offset,
+    limit
+  )
+  return res.status(200).json({
+    data: studios,
+  })
+})
+
 const postStudio = catchAsync(async (req, res) => {
   const {
     studioName,
@@ -48,4 +61,18 @@ const postStudio = catchAsync(async (req, res) => {
   })
 })
 
-export { getAllStudios, getStudioById, postStudio }
+const getReviewByStudioId = catchAsync(async (req, res) => {
+  const { studioId } = req.params
+  const review = await studioService.getReviewByStudioId(studioId)
+  return res.status(200).json({
+    data: review,
+  })
+})
+
+export {
+  getAllStudios,
+  getStudioById,
+  postStudio,
+  getStudiosByCategory,
+  getReviewByStudioId,
+}
