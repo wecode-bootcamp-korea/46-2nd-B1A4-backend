@@ -1,4 +1,5 @@
 import * as userDao from './userDao.js'
 import * as studioDao from './studioDao.js'
+import * as bookingDao from './bookingDao.js'
 
-export { userDao, studioDao }
+export { userDao, studioDao, bookingDao }
