@@ -30,9 +30,9 @@ const login = catchAsync(async (req, res) => {
     throw error
   }
 
-  const result = await userService.login(email, password)
+  const token = await userService.login(email, password)
 
-  return res.status(201).json({ message: 'LOGIN_SUCCESS', accessToken: result })
+  return res.status(200).json({ message: 'LOGIN_SUCCESS', accessToken: token })
 })
 
 const kakaoLogin = catchAsync(async (req, res) => {
@@ -56,4 +56,21 @@ const kakaoLogin = catchAsync(async (req, res) => {
   })
 })
 
-export { signUp, login, kakaoLogin }
+const getUserInfo = catchAsync(async (req, res) => {
+  const userId = req.user
+  const userData = await userService.getUserInfo(userId)
+
+  return res.status(200).json({
+    data: userData,
+  })
+})
+
+const getUserPhoneNumber = catchAsync(async (req, res) => {
+  const userId = req.user
+  const userPhoneData = await userService.getUserPhoneNumber(userId)
+  return res.status(200).json({
+    data: userPhoneData,
+  })
+})
+
+export { signUp, login, kakaoLogin, getUserInfo, getUserPhoneNumber }

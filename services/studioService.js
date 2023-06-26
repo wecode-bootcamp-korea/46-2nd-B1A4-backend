@@ -44,10 +44,15 @@ const getReviewByStudioId = async (studioId) => {
   return await studioDao.queryStudioReview(studioId)
 }
 
+const getStudioCategoryName = async () => {
+  return await studioDao.queryStudioCategoryNames()
+}
+
 export {
   getAllStudios,
   getStudioById,
   postStudio,
   getStudiosByCategory,
   getReviewByStudioId,
+  getStudioCategoryName,
 }

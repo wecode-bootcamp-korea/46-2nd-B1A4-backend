@@ -1,5 +1,5 @@
 {
-  "name": "46-1st-wepet-backend",
+  "name": "46-2nd-space-around-backend",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.1405.0",
     "axios": "^1.4.0",
     "bcrypt": "^5.1.0",
     "cors": "^2.8.5",
@@ -22,10 +23,11 @@
     "jest-esm-transformer": "^1.0.0",
     "jsonwebtoken": "^9.0.0",
     "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
     "mysql2": "^3.3.1",
-    "order-id": "^2.1.2",
     "supertest": "^6.3.3",
-    "typeorm": "^0.3.16"
+    "typeorm": "^0.3.16",
+    "uuidv4": "^6.2.13"
   },
   "devDependencies": {
     "nodemon": "^2.0.22"

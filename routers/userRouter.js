@@ -5,8 +5,10 @@ import { validateToken } from '../middleware/auth.js'
 
 const userRouter = Router()
 
+userRouter.get('', validateToken, userController.getUserInfo)
 userRouter.post('/signup', userController.signUp)
 userRouter.post('/login', userController.login)
 userRouter.post('/kakao', userController.kakaoLogin)
+userRouter.get('/phone', validateToken, userController.getUserPhoneNumber)
 
 export { userRouter }

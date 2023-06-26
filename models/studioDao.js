@@ -11,6 +11,12 @@ const queryAllStudios = async () => {
           s.price AS studioPrice,
           s.location_latitude AS locationLatitude,
           s.location_longitude AS locationLongitude,
+          FORMAT(  
+            (
+                SELECT AVG(rating)
+                FROM reviews
+                WHERE studio_id = s.id
+              ), 1) AS averageRating,
           JSON_ARRAYAGG(si.image) AS studioImages
         FROM studios AS s
         LEFT JOIN
@@ -35,6 +41,7 @@ const queryStudioById = async (studioId) => {
         s.id AS studioId,
         u.name AS hostName,
         u.profile_image AS profileImage,
+        u.phone_number AS phoneNumber,
         s.studio_name AS studioName,
         s.price AS studioPrice,
         s.max_guests AS maxGuests,
@@ -43,6 +50,17 @@ const queryStudioById = async (studioId) => {
         s.rules AS studioRules,
         s.location_latitude AS locationLatitude,
         s.location_longitude AS locationLongitude,
+        FORMAT(  
+          (
+              SELECT AVG(rating)
+              FROM reviews
+              WHERE studio_id = s.id
+            ), 1) AS averageRating,
+           (
+            SELECT COUNT(*)
+            FROM reviews r
+            WHERE r.studio_id = s.id
+            ) AS ratingCount,
         (
           SELECT JSON_ARRAYAGG(
             JSON_OBJECT('id', ao.id, 'imgIcon', ao.icon_img, 'title', ao.title, 'content', ao.description)
@@ -63,6 +81,7 @@ const queryStudioById = async (studioId) => {
       s.id,
       u.name,
       u.profile_image,
+      u.phone_number,
       s.studio_name,
       s.price,
       s.max_guests,
@@ -95,11 +114,18 @@ const queryStudioByCategory = async (
       SELECT
         s.id AS studioId,
         sc.category_name AS studioCategory,
+        sc.icon_img AS studioIconImage,
         s.studio_name AS studioName,
         s.address AS studioAddress,
         s.price AS studioPrice,
         s.location_latitude AS locationLatitude,
         s.location_longitude AS locationLongitude,
+        FORMAT(  
+          (
+              SELECT AVG(rating)
+              FROM reviews
+              WHERE studio_id = s.id
+            ), 1) AS averageRating,
         JSON_ARRAYAGG(si.image) AS studioImages
       FROM
         studios AS s
@@ -224,10 +250,25 @@ const queryStudioReview = async (studioId) => {
   }
 }
 
+const queryStudioCategoryNames = async () => {
+  const data = await database.query(
+    `
+    SELECT
+      sc.id,
+      sc.category_name,
+      sc.icon_img
+    FROM
+      studio_category AS sc
+    `
+  )
+  return data
+}
+
 export {
   queryAllStudios,
   queryStudioById,
   queryInsertStudio,
   queryStudioByCategory,
   queryStudioReview,
+  queryStudioCategoryNames,
 }

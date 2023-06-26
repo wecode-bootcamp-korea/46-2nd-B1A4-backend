@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Multiple Image Upload</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+
+      form {
+        margin-bottom: 20px;
+      }
+
+      input[type='file'] {
+        margin-right: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Multiple Image Upload</h1>
+    <form id="uploadForm" enctype="multipart/form-data">
+      <input type="file" id="imageInput" accept="image/*" multiple required />
+      <input type="submit" value="Upload" />
+    </form>
+
+    <script>
+      document.getElementById('uploadForm').addEventListener('submit', (e) => {
+        e.preventDefault()
+        const fileInput = document.getElementById('imageInput')
+        const files = fileInput.files
+
+        if (files.length > 0) {
+          uploadFiles(files)
+        }
+      })
+
+      function uploadFiles(files) {
+        const formData = new FormData()
+        for (let i = 0; i < files.length; i++) {
+          formData.append('image', files[i])
+        }
+
+        fetch('http://127.0.0.1:8000/hosts/images', {
+          method: 'POST',
+          body: formData,
+        })
+          .then((response) => {
+            if (response.ok) {
+              return response.json()
+            } else {
+              throw new Error('Upload failed')
+            }
+          })
+          .then((data) => {
+            console.log('Upload successful:', data)
+          })
+          .catch((error) => {
+            console.error('Error:', error)
+          })
+      }
+    </script>
+  </body>
+</html>
