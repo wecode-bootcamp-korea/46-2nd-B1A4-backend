@@ -15,18 +15,18 @@ const signUp = async (email, password, name, phoneNumber) => {
   }
   const saltRounds = 10
   const hashedPassword = await bcrypt.hash(password, saltRounds)
-  const createUser = await userDao.createUser(
-    email,
-    hashedPassword,
-    name,
-    phoneNumber
-  )
+  const createUser = await userDao.createUser(email, hashedPassword, name)
   return createUser
 }
 
 const checkDuplicateEmail = async (email) => {
   const user = await userDao.getUserByEmail(email)
   return user ? true : false
+}
+
+const getUserById = async (userId) => {
+  const user = await userDao.getUserById(userId)
+  return user
 }
 
 const login = async (email, password) => {
@@ -74,11 +74,13 @@ const kakaoLogin = async (accessToken) => {
 
     const user = await userDao.checkUserExistByKakaoId(kakaoId)
 
-    !user
-      ? await userDao.kakaoSignUp(kakaoId, nickName, email, profileImage)
-      : await userDao.getUserByKakaoId(kakaoId)
+    if (user !== true) {
+      await userDao.kakaoSignUp(kakaoId, nickName, email, profileImage)
+    }
 
-    return await jwt.sign({ id: user.id }, process.env.SECRET_JWT_KEY, {
+    const userId = await userDao.getUserByKakaoId(kakaoId)
+
+    return await jwt.sign({ id: userId }, process.env.SECRET_JWT_KEY, {
       algorithm: process.env.ALGORITHM,
       expiresIn: process.env.JWT_EXPIRES_IN,
     })
@@ -89,4 +91,20 @@ const kakaoLogin = async (accessToken) => {
   }
 }
 
-export { signUp, checkDuplicateEmail, login, kakaoLogin }
+const getUserInfo = async (userId) => {
+  return await userDao.queryUserInfo(userId)
+}
+
+const getUserPhoneNumber = async (userId) => {
+  return await userDao.queryUserPhone(userId)
+}
+
+export {
+  signUp,
+  checkDuplicateEmail,
+  getUserById,
+  login,
+  kakaoLogin,
+  getUserInfo,
+  getUserPhoneNumber,
+}

@@ -7,6 +7,8 @@ db/schema.sql
 # Environment settings
 .env
 .env.test
+.env.aws
+
 # Dependency directories
 node_modules/
 jspm_packages/

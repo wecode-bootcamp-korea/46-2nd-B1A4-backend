@@ -7,8 +7,8 @@ const createUser = async (email, password, name) => {
           users (
             email,
             password,
-            name,
-        ) VALUES (?, ?, ?, ?)
+            name
+        ) VALUES (?, ?, ?)
       `,
       [email, password, name]
     )
@@ -26,7 +26,7 @@ const getUserByEmail = async (email) => {
         u.id,
         u.email,
         u.password,
-        u.name,
+        u.name
       FROM 
         users u
       WHERE 
@@ -42,6 +42,25 @@ const getUserByEmail = async (email) => {
   }
 }
 
+const getUserById = async (userId) => {
+  try {
+    const data = await database.query(
+      `
+    SELECT
+      u.id
+     FROM
+      users u
+    WHERE
+      u.id = ?
+    `,
+      [userId]
+    )
+    return data[0]
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 const checkUserExistByKakaoId = async (kakaoId) => {
   try {
     const [user] = await database.query(
@@ -54,7 +73,7 @@ const checkUserExistByKakaoId = async (kakaoId) => {
       `,
       [kakaoId]
     )
-    return !!parseInt(user)
+    return !!user
   } catch (error) {
     error = new Error(`THIS_KAKAO_ID_DOES_NOT_EXIST`)
     error.statusCode = 400
@@ -64,7 +83,7 @@ const checkUserExistByKakaoId = async (kakaoId) => {
 
 const getUserByKakaoId = async (kakaoId) => {
   try {
-    const user = await database.query(
+    const [user] = await database.query(
       `SELECT
         id
        FROM 
@@ -73,7 +92,7 @@ const getUserByKakaoId = async (kakaoId) => {
         u.kakao_id = ?`,
       [kakaoId]
     )
-    return user
+    return user.id
   } catch (error) {
     error = new Error(`THIS_KAKAO_ID_DOES_NOT_EXIST`)
     error.statusCode = 400
@@ -81,7 +100,12 @@ const getUserByKakaoId = async (kakaoId) => {
   }
 }
 
-const kakaoSignUp = async (kakaoId, nickName, email, profileImage) => {
+const kakaoSignUp = async (
+  kakaoId,
+  nickName,
+  email = 'NULL',
+  profileImage = 'NULL'
+) => {
   try {
     await database.query(
       `INSERT INTO
@@ -95,16 +119,64 @@ const kakaoSignUp = async (kakaoId, nickName, email, profileImage) => {
       [kakaoId, nickName, email, profileImage]
     )
   } catch (error) {
+    console.error(error)
     error = new Error(`KAKAO_SIGNUP_ERROR`)
     error.statusCode = 400
     throw error
   }
 }
 
+const queryUserInfo = async (userId) => {
+  try {
+    const data = await database.query(
+      `
+      SELECT
+        u.id AS userId,
+        u.host_id AS hostId,
+        u.name AS userFullName,
+        u.profile_image AS profileImage,
+        u.email AS userEmail,
+        u.phone_number AS userPhoneNumber,
+        u.birth_date AS userBirthDate
+      FROM
+        users AS u
+      WHERE
+        u.id = ?
+    `,
+      [userId]
+    )
+    return data
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+const queryUserPhone = async (userId) => {
+  try {
+    const data = await database.query(
+      `
+      SELECT 
+        u.phone_number AS phoneNumber
+      FROM
+        users AS u
+      WHERE
+        u.id = ?
+      `,
+      [userId]
+    )
+    return data
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 export {
   createUser,
   getUserByEmail,
+  getUserById,
   checkUserExistByKakaoId,
   getUserByKakaoId,
   kakaoSignUp,
+  queryUserInfo,
+  queryUserPhone,
 }

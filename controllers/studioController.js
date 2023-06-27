@@ -69,10 +69,18 @@ const getReviewByStudioId = catchAsync(async (req, res) => {
   })
 })
 
+const getStudioCategoryName = catchAsync(async (req, res) => {
+  const studioCategories = await studioService.getStudioCategoryName()
+  return res.status(200).json({
+    data: studioCategories,
+  })
+})
+
 export {
   getAllStudios,
   getStudioById,
   postStudio,
   getStudiosByCategory,
   getReviewByStudioId,
+  getStudioCategoryName,
 }

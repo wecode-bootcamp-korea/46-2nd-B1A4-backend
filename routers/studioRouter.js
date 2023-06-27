@@ -7,7 +7,8 @@ const studioRouter = Router()
 studioRouter.get('', studioController.getAllStudios)
 studioRouter.get('/details/:studioId', studioController.getStudioById)
 studioRouter.get('/filter', studioController.getStudiosByCategory)
-studioRouter.post('', studioController.postStudio)
 studioRouter.get('/reviews/:studioId', studioController.getReviewByStudioId)
+studioRouter.get('/studioCategories', studioController.getStudioCategoryName)
+studioRouter.post('', studioController.postStudio)
 
 export { studioRouter }
