@@ -99,6 +99,14 @@ const getUserPhoneNumber = async (userId) => {
   return await userDao.queryUserPhone(userId)
 }
 
+const postUserLikes = async (userId, studioId) => {
+  return await userDao.insertUserLikes(userId, studioId)
+}
+
+const getUserLikes = async (userId) => {
+  return await userDao.queryUserLikes(userId)
+}
+
 export {
   signUp,
   checkDuplicateEmail,
@@ -107,4 +115,6 @@ export {
   kakaoLogin,
   getUserInfo,
   getUserPhoneNumber,
+  postUserLikes,
+  getUserLikes,
 }

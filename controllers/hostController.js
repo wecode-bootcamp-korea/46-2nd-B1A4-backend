@@ -2,14 +2,55 @@ import { hostService } from '../services/index.js'
 import { catchAsync } from '../middleware/errorHandler.js'
 
 const postNewStudio = catchAsync(async (req, res) => {
+  const userId = 2
   //const userId = req.user
-  //const { name } = req.body
+  const hostId = userId
+  const {
+    studioName,
+    type,
+    category,
+    description,
+    address,
+    addressNeighborHood,
+    addressCity,
+    price,
+    rules,
+    maxGuests,
+    locationLatitude,
+    locationLongitude,
+  } = req.body
 
-  const studioImages = req.files
+  const data = await hostService.postNewStudio(
+    hostId,
+    studioName,
+    type,
+    category,
+    description,
+    address,
+    addressNeighborHood,
+    addressCity,
+    price,
+    rules,
+    maxGuests,
+    locationLatitude,
+    locationLongitude
+  )
 
-  const studio = await hostService.postNewStudio(studioImages)
-
-  return res.status(201).json({ studio })
+  return res
+    .status(201)
+    .json({ message: 'NEW_STUDIO_CREATION_SUCCESS', studioId: data.insertId })
 })
 
-export { postNewStudio }
+const postStudioImages = catchAsync(async (req, res) => {
+  //const { studioId } = req.body
+  const studioId = 69
+  const studioImages = req.files
+
+  const studio = await hostService.postStudioImages(studioId, studioImages)
+
+  return res.status(201).json({
+    message: 'POST_STUDIO_PHOTOS_SUCCESS',
+  })
+})
+
+export { postNewStudio, postStudioImages }

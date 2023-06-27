@@ -6,7 +6,39 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { hostDao } from '../models/index.js'
 
-const postNewStudio = async (studioImages) => {
+const postNewStudio = async (
+  hostId,
+  studioName,
+  type,
+  category,
+  description,
+  address,
+  addressNeighborHood,
+  addressCity,
+  price,
+  rules,
+  maxGuests,
+  locationLatitude,
+  locationLongitude
+) => {
+  return await hostDao.createNewStudio(
+    hostId,
+    studioName,
+    type,
+    category,
+    description,
+    address,
+    addressNeighborHood,
+    addressCity,
+    price,
+    rules,
+    maxGuests,
+    locationLatitude,
+    locationLongitude
+  )
+}
+
+const postStudioImages = async (studioId, studioImages) => {
   const s3 = new AWS.S3({
     accessKeyId: process.env.AWS_S3_ACCESS_KEY,
     secretAccessKey: process.env.AWS_S3_SECRET_KEY,
@@ -28,7 +60,7 @@ const postNewStudio = async (studioImages) => {
   const uploadResults = await Promise.all(uploadPromises)
   const uploadImgUrls = uploadResults.map((result) => result.Location)
 
-  return await hostDao.createNewSudio(uploadImgUrls)
+  return await hostDao.insertStudioImages(studioId, uploadImgUrls)
 }
 
-export { postNewStudio }
+export { postNewStudio, postStudioImages }

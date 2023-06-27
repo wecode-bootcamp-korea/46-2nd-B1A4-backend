@@ -170,6 +170,41 @@ const queryUserPhone = async (userId) => {
   }
 }
 
+const insertUserLikes = async (userId, studioId) => {
+  try {
+    await database.query(
+      `INSERT INTO
+        likes (
+        user_id,
+        studio_id
+      ) 
+      VALUES(?, ?)`,
+      [userId, studioId]
+    )
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+const queryUserLikes = async (userId) => {
+  try {
+    const data = await database.query(
+      `
+      SELECT 
+        studio_id
+      FROM
+        likes
+      WHERE
+        id = ?
+      `,
+      [userId]
+    )
+    return data
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 export {
   createUser,
   getUserByEmail,
@@ -179,4 +214,6 @@ export {
   kakaoSignUp,
   queryUserInfo,
   queryUserPhone,
+  insertUserLikes,
+  queryUserLikes,
 }
