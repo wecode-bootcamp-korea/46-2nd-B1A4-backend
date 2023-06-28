@@ -10,10 +10,12 @@ const upload = multer()
 hostRouter.post('/studio', validateToken, hostController.postNewStudio)
 
 hostRouter.post(
-  '/images',
+  '/images/:studioId',
   upload.array('image', 10),
   validateToken,
   hostController.postStudioImages
 )
+
+hostRouter.post('', validateToken, hostController.createNewHost)
 
 export { hostRouter }

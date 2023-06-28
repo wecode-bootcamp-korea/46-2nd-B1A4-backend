@@ -2,7 +2,8 @@ import { studioService } from '../services/index.js'
 import { catchAsync } from '../middleware/errorHandler.js'
 
 const getAllStudios = catchAsync(async (req, res) => {
-  const studios = await studioService.getAllStudios()
+  const userId = req.user
+  const studios = await studioService.getAllStudios(userId)
   return res.status(200).json({
     data: studios,
   })
@@ -10,7 +11,9 @@ const getAllStudios = catchAsync(async (req, res) => {
 
 const getStudioById = catchAsync(async (req, res) => {
   const { studioId } = req.params
-  const [studio] = await studioService.getStudioById(studioId)
+  const userId = req.user
+
+  const [studio] = await studioService.getStudioById(studioId, userId)
   return res.status(200).json({
     data: studio,
   })
@@ -18,8 +21,10 @@ const getStudioById = catchAsync(async (req, res) => {
 
 const getStudiosByCategory = catchAsync(async (req, res) => {
   const { studioCategoryId, offset, limit } = req.query
+  const userId = req.user
 
   const studios = await studioService.getStudiosByCategory(
+    userId,
     studioCategoryId,
     offset,
     limit

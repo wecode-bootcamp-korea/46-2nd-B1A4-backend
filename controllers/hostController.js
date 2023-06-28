@@ -2,8 +2,7 @@ import { hostService } from '../services/index.js'
 import { catchAsync } from '../middleware/errorHandler.js'
 
 const postNewStudio = catchAsync(async (req, res) => {
-  const userId = 2
-  //const userId = req.user
+  const userId = req.user
   const hostId = userId
   const {
     studioName,
@@ -38,11 +37,11 @@ const postNewStudio = catchAsync(async (req, res) => {
 
   return res
     .status(201)
-    .json({ message: 'NEW_STUDIO_CREATION_SUCCESS', studioId: data.insertId })
+    .json({ message: 'NEW_STUDIO_CREATION_SUCCESS', studioId: data })
 })
 
 const postStudioImages = catchAsync(async (req, res) => {
-  const { studioId } = req.body
+  const { studioId } = req.params
 
   const studioImages = req.files
 
@@ -53,4 +52,14 @@ const postStudioImages = catchAsync(async (req, res) => {
   })
 })
 
-export { postNewStudio, postStudioImages }
+const createNewHost = catchAsync(async (req, res) => {
+  const userId = req.user
+  const { isHost } = req.body
+  const host = await hostService.createNewHost(userId, isHost)
+
+  return res.status(201).json({
+    data: host,
+  })
+})
+
+export { postNewStudio, postStudioImages, createNewHost }

@@ -78,4 +78,18 @@ const insertStudioImages = async (studioId, uploadImgUrls) => {
   }
 }
 
-export { createNewStudio, insertStudioImages }
+const createHost = async (userId, isHost) => {
+  try {
+    const data = database.query(
+      `
+      INSERT INTO hosts (is_host),
+      VALUE(?)
+    `,
+      [isHost]
+    )
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+export { createNewStudio, insertStudioImages, createHost }

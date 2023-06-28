@@ -1,6 +1,4 @@
 import { database } from './dataSource.js'
-import {} from './queryBuilder.js'
-
 const createUser = async (email, password, name) => {
   try {
     await database.query(
