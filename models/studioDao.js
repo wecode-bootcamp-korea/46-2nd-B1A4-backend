@@ -20,7 +20,7 @@ const queryAllStudios = async (userId) => {
         ${
           userId
             ? `,
-        IF(l.id IS NOT NULL, 1, 0) AS liked,
+        l.liked AS liked,
         u.id AS userId,
         u.name AS userName,
         u.email AS userEmail`
@@ -47,8 +47,6 @@ const queryAllStudios = async (userId) => {
 
 const queryStudioById = async (studioId, userId) => {
   try {
-    console.log(studioId)
-    console.log(userId)
     const data = await database.query(
       `
       SELECT
@@ -84,7 +82,7 @@ const queryStudioById = async (studioId, userId) => {
           WHERE sa.studio_id = s.id
         ) AS amenities,
         JSON_ARRAYAGG(si.image) AS studioImages,
-        IF(l.id IS NOT NULL, 1, 0) AS liked
+        l.liked AS liked
     FROM
       studios AS s
       LEFT JOIN studio_images AS si ON s.id = si.studio_id
@@ -143,7 +141,7 @@ const queryStudioByCategory = async (
               WHERE studio_id = s.id
             ), 1) AS averageRating,
         JSON_ARRAYAGG(si.image) AS studioImages,
-        IF(l.id IS NOT NULL, 1, 0) AS liked
+        l.liked AS liked
       FROM
         studios AS s
         LEFT JOIN studio_images AS si ON s.id = si.studio_id

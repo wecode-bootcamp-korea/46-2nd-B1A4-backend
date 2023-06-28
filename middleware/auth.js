@@ -31,7 +31,6 @@ const validateToken = async (req, res, next) => {
 const validateTokenByLike = async (req, res, next) => {
   try {
     const accessToken = req.headers.authorization
-    console.log(accessToken)
     if (!accessToken) {
       return next()
     }

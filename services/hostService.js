@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { hostDao } from '../models/index.js'
 
 const postNewStudio = async (
+  hostId,
   userId,
   studioName,
   type,
@@ -22,6 +23,7 @@ const postNewStudio = async (
   locationLongitude
 ) => {
   return await hostDao.createNewStudio(
+    hostId,
     userId,
     studioName,
     type,

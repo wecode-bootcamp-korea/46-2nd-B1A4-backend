@@ -1,6 +1,7 @@
 import { database } from './dataSource.js'
 
 const createNewStudio = async (
+  hostId,
   userId,
   studioName,
   type,
@@ -52,7 +53,7 @@ const createNewStudio = async (
       ]
     )
 
-    console.log(data.insertId)
+    const studioId = data.insertId
 
     const host = await database.query(
       `
@@ -61,11 +62,11 @@ const createNewStudio = async (
       SET 
         studio_id = ?
       WHERE 
-        user_id = ?;
-      
+        id = ? AND user_id = ?;
       `,
-      [data.insertId, userId]
+      [data.insertId, hostId, userId]
     )
+    return studioId
   } catch (error) {
     console.error(error)
   }
@@ -98,7 +99,8 @@ const createHost = async (userId) => {
     `,
       [userId]
     )
-    return data
+    const hostId = data.insertId
+    return hostId
   } catch (error) {
     console.error(error)
   }
