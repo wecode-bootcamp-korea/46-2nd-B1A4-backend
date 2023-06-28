@@ -42,8 +42,8 @@ const postNewStudio = catchAsync(async (req, res) => {
 })
 
 const postStudioImages = catchAsync(async (req, res) => {
-  //const { studioId } = req.body
-  const studioId = 69
+  const { studioId } = req.body
+
   const studioImages = req.files
 
   const studio = await hostService.postStudioImages(studioId, studioImages)

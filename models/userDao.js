@@ -170,16 +170,19 @@ const queryUserPhone = async (userId) => {
   }
 }
 
-const insertUserLikes = async (userId, studioId) => {
+const insertUserLikes = async (userId, studioId, liked) => {
   try {
     await database.query(
-      `INSERT INTO
-        likes (
-        user_id,
-        studio_id
-      ) 
-      VALUES(?, ?)`,
-      [userId, studioId]
+      `
+      INSERT INTO 
+        likes 
+          (user_id, studio_id, liked)
+      VALUES 
+        (?, ?, ?)
+      ON DUPLICATE KEY UPDATE 
+        liked = VALUES(liked)
+      `,
+      [userId, studioId, liked]
     )
   } catch (error) {
     console.error(error)
@@ -190,15 +193,25 @@ const queryUserLikes = async (userId) => {
   try {
     const data = await database.query(
       `
-      SELECT 
-        studio_id
-      FROM
-        likes
-      WHERE
-        id = ?
+      SELECT
+      l.user_id AS userId,
+      JSON_ARRAYAGG(
+        JSON_OBJECT(
+          'studioId', l.studio_id,
+          'liked', l.liked
+        )
+      ) AS data
+    FROM
+      likes AS l
+    WHERE
+      l.user_id = ?
+    GROUP BY
+      l.user_id
+    
       `,
       [userId]
     )
+    console.log(data)
     return data
   } catch (error) {
     console.error(error)

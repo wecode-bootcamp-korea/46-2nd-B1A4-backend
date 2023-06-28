@@ -75,9 +75,9 @@ const getUserPhoneNumber = catchAsync(async (req, res) => {
 
 const postUserLikes = catchAsync(async (req, res) => {
   const userId = req.user
-  const { studioId } = req.params
+  const { studioId, liked } = req.body
 
-  await userService.postUserLikes(userId, studioId)
+  await userService.postUserLikes(userId, studioId, liked)
 
   return res.status(201).json({
     message: 'USER_LIKE_STUDIO_SUCCESS',

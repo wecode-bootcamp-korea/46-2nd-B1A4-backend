@@ -10,10 +10,7 @@ userRouter.post('/signup', userController.signUp)
 userRouter.post('/login', userController.login)
 userRouter.post('/kakao', userController.kakaoLogin)
 userRouter.get('/phone', validateToken, userController.getUserPhoneNumber)
-userRouter.post(
-  '/like/:studioId',
-  validateToken,
-  userController.postUserLikeStudio
-)
+userRouter.post('/like', validateToken, userController.postUserLikes)
+userRouter.get('/like', validateToken, userController.getUserLikes)
 
 export { userRouter }

@@ -60,9 +60,6 @@ const createNewStudio = async (
   }
 }
 
-//TODO:
-// image uploading must reference primary key of studios
-// join the studios table with studio_images ?
 const insertStudioImages = async (studioId, uploadImgUrls) => {
   try {
     for (const imageUrl of uploadImgUrls) {

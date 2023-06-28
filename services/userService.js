@@ -99,8 +99,8 @@ const getUserPhoneNumber = async (userId) => {
   return await userDao.queryUserPhone(userId)
 }
 
-const postUserLikes = async (userId, studioId) => {
-  return await userDao.insertUserLikes(userId, studioId)
+const postUserLikes = async (userId, studioId, liked) => {
+  return await userDao.insertUserLikes(userId, studioId, liked)
 }
 
 const getUserLikes = async (userId) => {
