@@ -9,6 +9,7 @@ studioRouter.get('/details/:studioId', studioController.getStudioById)
 studioRouter.get('/filter', studioController.getStudiosByCategory)
 studioRouter.get('/reviews/:studioId', studioController.getReviewByStudioId)
 studioRouter.get('/studioCategories', studioController.getStudioCategoryName)
+studioRouter.get('/navfilter', studioController.getStudiosByFilter)
 studioRouter.post('', studioController.postStudio)
 
 export { studioRouter }

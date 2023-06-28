@@ -80,7 +80,7 @@ const postUserLikes = catchAsync(async (req, res) => {
   await userService.postUserLikes(userId, studioId, liked)
 
   return res.status(201).json({
-    message: 'USER_LIKE_STUDIO_SUCCESS',
+    message: 'USER_LIKE_CHANGE_SUCCESS',
   })
 })
 

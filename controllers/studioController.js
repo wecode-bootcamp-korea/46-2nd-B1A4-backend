@@ -76,6 +76,14 @@ const getStudioCategoryName = catchAsync(async (req, res) => {
   })
 })
 
+const getStudiosByFilter = catchAsync(async (req, res) => {
+  const studios = await studioService.getStudiosByFilter()
+
+  return res.status(200).json({
+    data: studios,
+  })
+})
+
 export {
   getAllStudios,
   getStudioById,
@@ -83,4 +91,5 @@ export {
   getStudiosByCategory,
   getReviewByStudioId,
   getStudioCategoryName,
+  getStudiosByFilter,
 }

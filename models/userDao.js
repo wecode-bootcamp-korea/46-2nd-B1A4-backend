@@ -1,4 +1,5 @@
 import { database } from './dataSource.js'
+import {} from './queryBuilder.js'
 
 const createUser = async (email, password, name) => {
   try {
@@ -196,22 +197,17 @@ const queryUserLikes = async (userId) => {
       SELECT
       l.user_id AS userId,
       JSON_ARRAYAGG(
-        JSON_OBJECT(
-          'studioId', l.studio_id,
-          'liked', l.liked
-        )
-      ) AS data
+        l.studio_id
+      ) AS likes
     FROM
       likes AS l
     WHERE
-      l.user_id = ?
+      l.user_id = ? AND l.liked = 1
     GROUP BY
       l.user_id
-    
       `,
       [userId]
     )
-    console.log(data)
     return data
   } catch (error) {
     console.error(error)

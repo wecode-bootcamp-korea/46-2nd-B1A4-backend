@@ -251,17 +251,33 @@ const queryStudioReview = async (studioId) => {
 }
 
 const queryStudioCategoryNames = async () => {
-  const data = await database.query(
-    `
-    SELECT
-      sc.id,
-      sc.category_name,
-      sc.icon_img
-    FROM
-      studio_category AS sc
-    `
-  )
-  return data
+  try {
+    const data = await database.query(
+      `
+      SELECT
+        sc.id,
+        sc.category_name,
+        sc.icon_img
+      FROM
+        studio_category AS sc
+      `
+    )
+    return data
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+const queryStudiosByFilter = async () => {
+  try {
+    const data = await database.query(
+      `
+      `
+    )
+    return data
+  } catch (error) {
+    console.error(error)
+  }
 }
 
 export {
@@ -271,4 +287,5 @@ export {
   queryStudioByCategory,
   queryStudioReview,
   queryStudioCategoryNames,
+  queryStudiosByFilter,
 }
