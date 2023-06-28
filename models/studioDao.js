@@ -88,8 +88,8 @@ const queryStudioById = async (studioId, userId) => {
     FROM
       studios AS s
       LEFT JOIN studio_images AS si ON s.id = si.studio_id
-      LEFT JOIN hosts AS h ON s.host_id = h.id
-      LEFT JOIN users AS u ON u.host_id = h.id
+      LEFT JOIN hosts AS h ON s.id = h.studio_id
+      LEFT JOIN users AS u ON u.id = h.user_id
       LEFT JOIN likes AS l ON s.id = l.studio_id AND l.user_id = ?
       LEFT JOIN users AS u2 ON l.user_id = u2.id
     WHERE

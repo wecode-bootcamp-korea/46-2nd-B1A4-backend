@@ -3,7 +3,6 @@ import { catchAsync } from '../middleware/errorHandler.js'
 
 const postNewStudio = catchAsync(async (req, res) => {
   const userId = req.user
-  const hostId = userId
   const {
     studioName,
     type,
@@ -20,7 +19,7 @@ const postNewStudio = catchAsync(async (req, res) => {
   } = req.body
 
   const data = await hostService.postNewStudio(
-    hostId,
+    userId,
     studioName,
     type,
     category,
@@ -54,8 +53,7 @@ const postStudioImages = catchAsync(async (req, res) => {
 
 const createNewHost = catchAsync(async (req, res) => {
   const userId = req.user
-  const { isHost } = req.body
-  const host = await hostService.createNewHost(userId, isHost)
+  const host = await hostService.createNewHost(userId)
 
   return res.status(201).json({
     data: host,

@@ -1,7 +1,7 @@
 import { database } from './dataSource.js'
 
 const createNewStudio = async (
-  hostId,
+  userId,
   studioName,
   type,
   category,
@@ -20,7 +20,6 @@ const createNewStudio = async (
       `
         INSERT INTO 
         studios (
-          host_id,
           studio_name,
           studio_type_id,
           studio_category_id,
@@ -35,10 +34,9 @@ const createNewStudio = async (
           location_longitude
         )
         VALUES
-          (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+          (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `,
       [
-        hostId,
         studioName,
         type,
         category,
@@ -54,7 +52,20 @@ const createNewStudio = async (
       ]
     )
 
-    return data
+    console.log(data.insertId)
+
+    const host = await database.query(
+      `
+      UPDATE 
+        hosts
+      SET 
+        studio_id = ?
+      WHERE 
+        user_id = ?;
+      
+      `,
+      [data.insertId, userId]
+    )
   } catch (error) {
     console.error(error)
   }
@@ -78,15 +89,16 @@ const insertStudioImages = async (studioId, uploadImgUrls) => {
   }
 }
 
-const createHost = async (userId, isHost) => {
+const createHost = async (userId) => {
   try {
-    const data = database.query(
+    const data = await database.query(
       `
-      INSERT INTO hosts (is_host),
-      VALUE(?)
+      INSERT INTO hosts (user_id)
+      VALUES(?)
     `,
-      [isHost]
+      [userId]
     )
+    return data
   } catch (error) {
     console.error(error)
   }
