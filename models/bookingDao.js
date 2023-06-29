@@ -68,9 +68,6 @@ const insertStudioBooking = async (
     console.error(error)
   }
 }
-// TODO:
-// timeslot
-// remove double data return
 
 const getUserBooking = async (bookingIdNumber) => {
   try {

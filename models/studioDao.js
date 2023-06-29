@@ -1,39 +1,51 @@
 import { database } from './dataSource.js'
 
-const queryAllStudios = async () => {
+const queryAllStudios = async (userId) => {
   try {
-    const data = await database.query(
-      `
-        SELECT
-          s.id AS studioId,
-          s.studio_name AS studioName,
-          s.address AS studioAddress,
-          s.price AS studioPrice,
-          s.location_latitude AS locationLatitude,
-          s.location_longitude AS locationLongitude,
-          FORMAT(  
-            (
-                SELECT AVG(rating)
-                FROM reviews
-                WHERE studio_id = s.id
-              ), 1) AS averageRating,
-          JSON_ARRAYAGG(si.image) AS studioImages
-        FROM studios AS s
-        LEFT JOIN
-          studio_images AS si ON s.id = si.studio_id
-        GROUP BY
-          s.id
-        `
-    )
+    const query = `
+      SELECT
+        s.id AS studioId,
+        s.studio_name AS studioName,
+        s.address AS studioAddress,
+        s.price AS studioPrice,
+        s.location_latitude AS locationLatitude,
+        s.location_longitude AS locationLongitude,
+        FORMAT(
+          (
+            SELECT AVG(rating)
+            FROM reviews
+            WHERE studio_id = s.id
+          ), 1) AS averageRating,
+        JSON_ARRAYAGG(si.image) AS studioImages
+        ${
+          userId
+            ? `,
+        l.liked AS liked,
+        u.id AS userId,
+        u.name AS userName,
+        u.email AS userEmail`
+            : ''
+        }
+      FROM
+        studios AS s
+      LEFT JOIN
+        studio_images AS si ON s.id = si.studio_id
+      ${
+        userId
+          ? `LEFT JOIN likes AS l ON s.id = l.studio_id AND l.user_id = ? LEFT JOIN users AS u ON l.user_id = u.id`
+          : ''
+      }
+      GROUP BY
+        s.id
+    `
+    const data = await database.query(query, [userId])
     return data
-  } catch {
-    const error = new Error('DATABASE_QUERY_ALL_STUDIOS_ERROR')
-    error.statusCode = 400
-    throw error
+  } catch (error) {
+    console.error(error)
   }
 }
 
-const queryStudioById = async (studioId) => {
+const queryStudioById = async (studioId, userId) => {
   try {
     const data = await database.query(
       `
@@ -69,12 +81,15 @@ const queryStudioById = async (studioId) => {
           INNER JOIN amenities_options AS ao ON sa.amenity_id = ao.id
           WHERE sa.studio_id = s.id
         ) AS amenities,
-        JSON_ARRAYAGG(si.image) AS studioImages
+        JSON_ARRAYAGG(si.image) AS studioImages,
+        l.liked AS liked
     FROM
       studios AS s
       LEFT JOIN studio_images AS si ON s.id = si.studio_id
-      LEFT JOIN hosts AS h ON s.host_id = h.id
-      LEFT JOIN users AS u ON u.host_id = h.id
+      LEFT JOIN hosts AS h ON s.id = h.studio_id
+      LEFT JOIN users AS u ON u.id = h.user_id
+      LEFT JOIN likes AS l ON s.id = l.studio_id AND l.user_id = ?
+      LEFT JOIN users AS u2 ON l.user_id = u2.id
     WHERE
       s.id = ?
     GROUP BY
@@ -91,17 +106,16 @@ const queryStudioById = async (studioId) => {
       s.location_latitude,
       s.location_longitude;
     `,
-      [studioId]
+      [userId, studioId]
     )
     return data
-  } catch {
-    const error = new Error('DATABASE_QUERY_STUDIO_BY_ID_ERROR')
-    error.statusCode = 400
-    throw error
+  } catch (error) {
+    console.error(error)
   }
 }
 
 const queryStudioByCategory = async (
+  userId,
   studioCategoryId,
   offset = 0,
   limit = 12
@@ -126,11 +140,14 @@ const queryStudioByCategory = async (
               FROM reviews
               WHERE studio_id = s.id
             ), 1) AS averageRating,
-        JSON_ARRAYAGG(si.image) AS studioImages
+        JSON_ARRAYAGG(si.image) AS studioImages,
+        l.liked AS liked
       FROM
         studios AS s
         LEFT JOIN studio_images AS si ON s.id = si.studio_id
         LEFT JOIN studio_category AS sc ON s.studio_category_id = sc.id
+        LEFT JOIN likes AS l ON s.id = l.studio_id AND l.user_id = ?
+        LEFT JOIN users AS u2 ON l.user_id = u2.id
       WHERE
         sc.id = ?
       GROUP BY
@@ -140,7 +157,7 @@ const queryStudioByCategory = async (
         s.price
       ${limitQuery}
     `,
-      [studioCategoryId]
+      [userId, studioCategoryId]
     )
     return data
   } catch {
@@ -206,7 +223,6 @@ const queryStudioReview = async (studioId) => {
     const data = await database.query(
       `SELECT
       s.id AS studioId,
-      s.host_id AS hostId,
       s.studio_name AS studioName,
       FORMAT(  
       (
@@ -251,17 +267,33 @@ const queryStudioReview = async (studioId) => {
 }
 
 const queryStudioCategoryNames = async () => {
-  const data = await database.query(
-    `
-    SELECT
-      sc.id,
-      sc.category_name,
-      sc.icon_img
-    FROM
-      studio_category AS sc
-    `
-  )
-  return data
+  try {
+    const data = await database.query(
+      `
+      SELECT
+        sc.id,
+        sc.category_name,
+        sc.icon_img
+      FROM
+        studio_category AS sc
+      `
+    )
+    return data
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+const queryStudiosByFilter = async () => {
+  try {
+    const data = await database.query(
+      `
+      `
+    )
+    return data
+  } catch (error) {
+    console.error(error)
+  }
 }
 
 export {
@@ -271,4 +303,5 @@ export {
   queryStudioByCategory,
   queryStudioReview,
   queryStudioCategoryNames,
+  queryStudiosByFilter,
 }

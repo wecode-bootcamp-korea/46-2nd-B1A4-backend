@@ -7,10 +7,15 @@ import { validateToken } from '../middleware/auth.js'
 const hostRouter = Router()
 const upload = multer()
 
+hostRouter.post('/studio', validateToken, hostController.postNewStudio)
+
 hostRouter.post(
-  '/images',
+  '/images/:studioId',
   upload.array('image', 10),
-  hostController.postNewStudio
+  validateToken,
+  hostController.postStudioImages
 )
+
+hostRouter.post('', validateToken, hostController.createNewHost)
 
 export { hostRouter }

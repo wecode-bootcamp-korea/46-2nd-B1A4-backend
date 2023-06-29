@@ -73,4 +73,32 @@ const getUserPhoneNumber = catchAsync(async (req, res) => {
   })
 })
 
-export { signUp, login, kakaoLogin, getUserInfo, getUserPhoneNumber }
+const postUserLikes = catchAsync(async (req, res) => {
+  const userId = req.user
+  const { studioId, liked } = req.body
+
+  await userService.postUserLikes(userId, studioId, liked)
+
+  return res.status(201).json({
+    message: 'USER_LIKE_CHANGE_SUCCESS',
+  })
+})
+
+const getUserLikes = catchAsync(async (req, res) => {
+  const userId = req.user
+  const likes = await userService.getUserLikes(userId)
+
+  return res.status(200).json({
+    data: likes,
+  })
+})
+
+export {
+  signUp,
+  login,
+  kakaoLogin,
+  getUserInfo,
+  getUserPhoneNumber,
+  postUserLikes,
+  getUserLikes,
+}

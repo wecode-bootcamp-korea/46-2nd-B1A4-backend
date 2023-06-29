@@ -1,5 +1,4 @@
 import { database } from './dataSource.js'
-
 const createUser = async (email, password, name) => {
   try {
     await database.query(
@@ -132,7 +131,6 @@ const queryUserInfo = async (userId) => {
       `
       SELECT
         u.id AS userId,
-        u.host_id AS hostId,
         u.name AS userFullName,
         u.profile_image AS profileImage,
         u.email AS userEmail,
@@ -170,6 +168,60 @@ const queryUserPhone = async (userId) => {
   }
 }
 
+const insertUserLikes = async (userId, studioId, liked) => {
+  try {
+    await database.query(
+      `
+      INSERT INTO 
+        likes 
+          (user_id, studio_id, liked)
+      VALUES 
+        (?, ?, ?)
+      ON DUPLICATE KEY UPDATE 
+        liked = VALUES(liked)
+      `,
+      [userId, studioId, liked]
+    )
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+const queryUserLikes = async (userId) => {
+  try {
+    const data = await database.query(
+      `
+      SELECT
+        l.user_id AS userId,
+        s.id AS studioId,
+        sc.category_name AS studioCategory,
+        sc.icon_img AS studioIconImage,
+        s.studio_name AS studioName,
+        s.address AS studioAddress,
+        s.price AS studioPrice,
+        s.location_latitude AS locationLatitude,
+        s.location_longitude AS locationLongitude,
+        FORMAT((SELECT AVG(rating) FROM reviews WHERE studio_id = s.id), 1) AS averageRating,
+        JSON_ARRAYAGG(si.image) AS studioImages,
+        l.liked AS liked
+      FROM
+        studios AS s
+        LEFT JOIN studio_images AS si ON s.id = si.studio_id
+        LEFT JOIN studio_category AS sc ON s.studio_category_id = sc.id
+        LEFT JOIN likes AS l ON s.id = l.studio_id AND l.user_id = ?
+      GROUP BY
+        l.user_id, s.id, sc.category_name, sc.icon_img, s.studio_name, s.address, s.price, s.location_latitude, s.location_longitude, l.liked
+      HAVING
+        l.user_id = ? AND l.liked = 1
+      `,
+      [userId, userId]
+    )
+    return data
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 export {
   createUser,
   getUserByEmail,
@@ -179,4 +231,6 @@ export {
   kakaoSignUp,
   queryUserInfo,
   queryUserPhone,
+  insertUserLikes,
+  queryUserLikes,
 }

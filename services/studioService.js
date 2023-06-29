@@ -1,15 +1,25 @@
 import { studioDao } from '../models/index.js'
 
-const getAllStudios = async () => {
-  return await studioDao.queryAllStudios()
+const getAllStudios = async (userId) => {
+  return await studioDao.queryAllStudios(userId)
 }
 
-const getStudioById = async (studioId) => {
-  return await studioDao.queryStudioById(studioId)
+const getStudioById = async (studioId, userId) => {
+  return await studioDao.queryStudioById(studioId, userId)
 }
 
-const getStudiosByCategory = async (studioCategoryId, offset, limit) => {
-  return await studioDao.queryStudioByCategory(studioCategoryId, offset, limit)
+const getStudiosByCategory = async (
+  userId,
+  studioCategoryId,
+  offset,
+  limit
+) => {
+  return await studioDao.queryStudioByCategory(
+    userId,
+    studioCategoryId,
+    offset,
+    limit
+  )
 }
 
 const postStudio = async (
@@ -48,6 +58,10 @@ const getStudioCategoryName = async () => {
   return await studioDao.queryStudioCategoryNames()
 }
 
+const getStudiosByFilter = async () => {
+  return await studioDao.queryStudiosByFilter()
+}
+
 export {
   getAllStudios,
   getStudioById,
@@ -55,4 +69,5 @@ export {
   getStudiosByCategory,
   getReviewByStudioId,
   getStudioCategoryName,
+  getStudiosByFilter,
 }
