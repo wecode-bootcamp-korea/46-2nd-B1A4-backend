@@ -223,7 +223,6 @@ const queryStudioReview = async (studioId) => {
     const data = await database.query(
       `SELECT
       s.id AS studioId,
-      s.host_id AS hostId,
       s.studio_name AS studioName,
       FORMAT(  
       (
