@@ -22,7 +22,6 @@ studioRouter.get(
   validateTokenByLike,
   studioController.getStudioCategoryName
 )
-studioRouter.get('/navfilter', studioController.getStudiosByFilter)
 studioRouter.post('', studioController.postStudio)
 
 export { studioRouter }

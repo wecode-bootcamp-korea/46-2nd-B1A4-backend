@@ -7,6 +7,8 @@ const queryAllStudios = async (userId) => {
         s.id AS studioId,
         s.studio_name AS studioName,
         s.address AS studioAddress,
+        s.address_neighborhood AS studioNeighborhood,
+        s.address_city AS studioCity,
         s.price AS studioPrice,
         s.location_latitude AS locationLatitude,
         s.location_longitude AS locationLongitude,
@@ -58,6 +60,8 @@ const queryStudioById = async (studioId, userId) => {
         s.price AS studioPrice,
         s.max_guests AS maxGuests,
         s.address AS studioAddress,
+        s.address_neighborhood AS studioNeighborhood,
+        s.address_city AS studioCity,
         s.description AS studioDescription,
         s.rules AS studioRules,
         s.location_latitude AS locationLatitude,
@@ -131,6 +135,8 @@ const queryStudioByCategory = async (
         sc.icon_img AS studioIconImage,
         s.studio_name AS studioName,
         s.address AS studioAddress,
+        s.address_neighborhood AS studioNeighborhood,
+        s.address_city AS studioCity,
         s.price AS studioPrice,
         s.location_latitude AS locationLatitude,
         s.location_longitude AS locationLongitude,
@@ -279,20 +285,10 @@ const queryStudioCategoryNames = async () => {
       `
     )
     return data
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-const queryStudiosByFilter = async () => {
-  try {
-    const data = await database.query(
-      `
-      `
-    )
-    return data
-  } catch (error) {
-    console.error(error)
+  } catch {
+    const error = new Error('QUERY_STUDIO_BY_CATEGORY_ERROR')
+    error.statusCode = 400
+    throw error
   }
 }
 
@@ -303,5 +299,4 @@ export {
   queryStudioByCategory,
   queryStudioReview,
   queryStudioCategoryNames,
-  queryStudiosByFilter,
 }
