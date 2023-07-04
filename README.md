@@ -27,14 +27,14 @@ For this project, I selected a technology stack of Node.js, Express, TypeORM, an
 
 </br>
 
-## 🏃 How to run our project:
+## 🏃 How to run this API project:
 
 **_To run this API, follow these steps:_**
 
 1. Clone the project repository.
 2. Run `npm install` to install the required npm packages.
 3. Ensure that you have a local MySQL server running and import the provided SQL dump file.
-4. Make sure you fill in the correct details in the .env sample
+4. Fill in the correct details in the `.env` sample.
 5. Once you have completed the above steps, type `npm start` to start the server.
 
 </br>
