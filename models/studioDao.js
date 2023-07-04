@@ -285,20 +285,10 @@ const queryStudioCategoryNames = async () => {
       `
     )
     return data
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-const queryStudiosByFilter = async () => {
-  try {
-    const data = await database.query(
-      `
-      `
-    )
-    return data
-  } catch (error) {
-    console.error(error)
+  } catch {
+    const error = new Error('QUERY_STUDIO_BY_CATEGORY_ERROR')
+    error.statusCode = 400
+    throw error
   }
 }
 
@@ -309,5 +299,4 @@ export {
   queryStudioByCategory,
   queryStudioReview,
   queryStudioCategoryNames,
-  queryStudiosByFilter,
 }
