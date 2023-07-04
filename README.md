@@ -12,9 +12,11 @@ Space around RESTful API was created to meet the growing demand for space rental
 
 Our backend API is the central point for handling CRUD (Create, Read, Update, Delete) operations for our frontend application. The API's endpoints are primarily categorized into the following:
 
-User endpoints: These endpoints allow users to perform CRUD operations on their own user accounts, such as creating a new account, logging in, and updating their profile information.
-Host Space endpoints: These endpoints allow users to perform CRUD operations on hosted spaces, such as creating a new space, listing a space for rent, and updating a space's information.
-Reservation endpoints: These endpoints allow users to perform CRUD operations on reservations, such as creating a new reservation, viewing a reservation, and canceling a reservation.
+**User endpoints**: These endpoints allow users to perform CRUD operations on their own user accounts, such as creating a new account, logging in, and updating their profile information.
+
+**Host Space endpoints**: These endpoints allow users to perform CRUD operations on hosted spaces, such as creating a new space, listing a space for rent, and updating a space's information.
+
+**Reservation endpoints**: These endpoints allow users to perform CRUD operations on reservations, such as creating a new reservation, viewing a reservation, and canceling a reservation.
 Space endpoints: These endpoints are used to display studios and details of each studio. They can also be used for filtering.
 
 </br>
@@ -25,7 +27,7 @@ For this project, I selected a technology stack of Node.js, Express, TypeORM, an
 
 </br>
 
-## 🏃‍♂️ How to run our project:
+## 🏃 How to run our project:
 
 **_To run our API project, follow these steps:_**
 
