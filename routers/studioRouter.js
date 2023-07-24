@@ -23,5 +23,6 @@ studioRouter.get(
   studioController.getStudioCategoryName
 )
 studioRouter.post('', studioController.postStudio)
+studioRouter.get('/query', studioController.filterStudios)
 
 export { studioRouter }

@@ -1,4 +1,5 @@
 import { database } from './dataSource.js'
+import { navStudioFilter, ordering } from './queryBuilder.js'
 
 const queryAllStudios = async (userId) => {
   try {
@@ -292,6 +293,69 @@ const queryStudioCategoryNames = async () => {
   }
 }
 
+const filterStudios = async (
+  minPrice,
+  maxPrice,
+  studioType,
+  amenities,
+  orderBy,
+  offset = 0,
+  limit = 12
+) => {
+  try {
+    let limitQuery = `LIMIT ${parseInt(limit)} OFFSET ${parseInt(offset)}`
+
+    const baseQuery = `
+    SELECT
+      s.id AS studioId,
+      sc.category_name AS studioCategory,
+      sc.icon_img AS studioIconImage,
+      s.studio_name AS studioName,
+      s.address AS studioAddress,
+      s.address_neighborhood AS studioNeighborhood,
+      s.address_city AS studioCity,
+      s.price AS studioPrice,
+      s.location_latitude AS locationLatitude,
+      s.location_longitude AS locationLongitude,
+        GROUP_CONCAT(DISTINCT ao.title) AS amenityName,
+    FORMAT((
+      SELECT
+        AVG(rating)
+        FROM reviews
+      WHERE
+        studio_id = s.id), 1) 
+      AS averageRating, JSON_ARRAYAGG(si.image) AS studioImages, l.liked AS liked
+    FROM
+      studios AS s
+      LEFT JOIN studio_images AS si ON s.id = si.studio_id
+      LEFT JOIN studio_category AS sc ON s.studio_category_id = sc.id
+      LEFT JOIN likes AS l ON s.id = l.studio_id AND l.user_id = 1
+      LEFT JOIN studio_amenities AS sa ON sa.studio_id = s.id
+      LEFT JOIN amenities_options AS ao ON sa.amenity_id = ao.id
+    `
+    const whereQuery = navStudioFilter(
+      minPrice,
+      maxPrice,
+      studioType,
+      amenities
+    )
+
+    const groupQuery = `GROUP BY s.id`
+
+    const sortQuery = ordering(orderBy)
+
+    const data = await database.query(
+      `${baseQuery} ${whereQuery} ${groupQuery} ${sortQuery} ${limitQuery}`
+    )
+
+    return data
+  } catch {
+    const error = new Error('NAV_QUERY_STUDIO_ERROR')
+    error.statusCode = 400
+    throw error
+  }
+}
+
 export {
   queryAllStudios,
   queryStudioById,
@@ -299,4 +363,5 @@ export {
   queryStudioByCategory,
   queryStudioReview,
   queryStudioCategoryNames,
+  filterStudios,
 }

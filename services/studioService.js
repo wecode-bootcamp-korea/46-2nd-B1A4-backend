@@ -58,6 +58,22 @@ const getStudioCategoryName = async () => {
   return await studioDao.queryStudioCategoryNames()
 }
 
+const filterStudios = async (
+  minPrice,
+  maxPrice,
+  studioType,
+  amenities,
+  orderBy
+) => {
+  return await studioDao.filterStudios(
+    minPrice,
+    maxPrice,
+    studioType,
+    amenities,
+    orderBy
+  )
+}
+
 export {
   getAllStudios,
   getStudioById,
@@ -65,4 +81,5 @@ export {
   getStudiosByCategory,
   getReviewByStudioId,
   getStudioCategoryName,
+  filterStudios,
 }
