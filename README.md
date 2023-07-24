@@ -6,6 +6,18 @@
 
 Space around RESTful API was created to meet the growing demand for space rental in a world where meetings are becoming more anonymous and non-face-to-face. We provide stylish spaces that appeal to the tastes of the MZ generation, who are known for their selfie profile culture. We aim to create a platform similar to Airbnb, where users can easily find and rent spaces that meet their needs. Our serivce is categorically divided into themes, making it easy for users to find the perfect space for their next event.
 
+<img src="assets/gif/결제.gif" width="25%" height="25%" alt="결제">
+<img src="assets/gif/결제수정.gif" width="25%" height="25%" alt="결제수정">
+<img src="assets/gif/디테일 공유.gif" width="25%" height="25%" alt="디테일 공유">
+<img src="assets/gif/디테일.gif" width="25%" height="25%" alt="디테일">
+<img src="assets/gif/로그인.gif" width="25%" height="25%" alt="로그인">
+<img src="assets/gif/무한스크롤.gif" width="25%" height="25%" alt="무한스크롤">
+<img src="assets/gif/상단Nav.gif" width="25%" height="25%" alt="상단Nav">
+<img src="assets/gif/스튜디오 이미지 업로드.gif" width="25%" height="25%" alt="스튜디오 이미지 업로드">
+<img src="assets/gif/지도.gif" width="25%" height="25%" alt="지도">
+<img src="assets/gif/카테고리.gif" width="25%" height="25%" alt="카테고리">
+<img src="assets/gif/필터.gif" width="25%" height="25%" alt="필터">
+
 </br>
 
 ## 🥓 Description:
