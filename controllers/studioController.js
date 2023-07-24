@@ -81,6 +81,20 @@ const getStudioCategoryName = catchAsync(async (req, res) => {
   })
 })
 
+const filterStudios = catchAsync(async (req, res) => {
+  const { minPrice, maxPrice, studioType, amenities, orderBy } = req.query
+  const studioData = await studioService.filterStudios(
+    minPrice,
+    maxPrice,
+    studioType,
+    amenities,
+    orderBy
+  )
+  return res.status(200).json({
+    data: studioData,
+  })
+})
+
 export {
   getAllStudios,
   getStudioById,
@@ -88,4 +102,5 @@ export {
   getStudiosByCategory,
   getReviewByStudioId,
   getStudioCategoryName,
+  filterStudios,
 }
