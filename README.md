@@ -25,10 +25,10 @@ Space around RESTful API was created to meet the growing demand for space rental
     </tr>
     <tr>
         <td><img src="assets/gif/스튜디오 이미지 업로드.gif" alt="스튜디오 이미지 업로드"></td>
-        <td><img src="assets/gif/결제.gif" alt="결제"></td>
+        <td><img src="assets/gif/결제수정.gif" alt="결제수정"></td>
     </tr>
     <tr>
-        <td><img src="assets/gif/결제수정.gif" alt="결제수정"></td>
+        <td><img src="assets/gif/결제.gif" alt="결제"></td>
     </tr>
   </table>
 </br>
