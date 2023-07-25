@@ -7,26 +7,29 @@
 Space around RESTful API was created to meet the growing demand for space rental in a world where meetings are becoming more anonymous and non-face-to-face. We provide stylish spaces that appeal to the tastes of the MZ generation, who are known for their selfie profile culture. We aim to create a platform similar to Airbnb, where users can easily find and rent spaces that meet their needs. Our serivce is categorically divided into themes, making it easy for users to find the perfect space for their next event.
 
 <table>
-      <tr>
-          <td><img src="assets/gif/결제.gif" alt="결제"></td>
-          <td><img src="assets/gif/결제수정.gif" alt="결제수정"></td>
-          <td><img src="assets/gif/디테일 공유.gif" alt="디테일 공유"></td>
-      </tr>
-      <tr>
-          <td><img src="assets/gif/디테일.gif" alt="디테일"></td>
-          <td><img src="assets/gif/로그인.gif" alt="로그인"></td>
-          <td><img src="assets/gif/무한스크롤.gif" alt="무한스크롤"></td>
-      </tr>
-      <tr>
-          <td><img src="assets/gif/상단Nav.gif" alt="상단Nav"></td>
-          <td><img src="assets/gif/스튜디오 이미지 업로드.gif" alt="스튜디오 이미지 업로드"></td>
-          <td><img src="assets/gif/지도.gif" alt="지도"></td>
-      </tr>
-      <tr>
-          <td><img src="assets/gif/카테고리.gif" alt="카테고리"></td>
-          <td><img src="assets/gif/필터.gif" alt="필터"></td>
-      </tr>
-
+    <tr>
+        <td><img src="assets/gif/결제.gif" alt="결제"></td>
+        <td><img src="assets/gif/결제수정.gif" alt="결제수정"></td>
+    </tr>
+    <tr>
+        <td><img src="assets/gif/디테일 공유.gif" alt="디테일 공유"></td>
+        <td><img src="assets/gif/디테일.gif" alt="디테일"></td>
+    </tr>
+    <tr>
+        <td><img src="assets/gif/로그인.gif" alt="로그인"></td>
+        <td><img src="assets/gif/무한스크롤.gif" alt="무한스크롤"></td>
+    </tr>
+    <tr>
+        <td><img src="assets/gif/상단Nav.gif" alt="상단Nav"></td>
+        <td><img src="assets/gif/스튜디오 이미지 업로드.gif" alt="스튜디오 이미지 업로드"></td>
+    </tr>
+    <tr>
+        <td><img src="assets/gif/지도.gif" alt="지도"></td>
+        <td><img src="assets/gif/카테고리.gif" alt="카테고리"></td>
+    </tr>
+    <tr>
+        <td><img src="assets/gif/필터.gif" alt="필터"></td>
+    </tr>
   </table>
 </br>
 
